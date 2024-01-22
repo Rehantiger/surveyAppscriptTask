@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <style>
+      /* Add your CSS styles here */
+    </style>
+  </head>
+  <body>
+    <h2>Contact Form</h2>
+    <form id="contactForm">
+      <!-- Add your form fields here with appropriate IDs -->
+      <label for="first_name">First Name:</label>
+      <input type="text" id="first_name" name="first_name" value="" required />
+
+      <label for="last_name">Last Name:</label>
+      <input type="text" id="last_name" name="last_name" value="" required />
+
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" name="phone" value="" required />
+
+      <!-- Add more fields as needed -->
+
+      <button type="button" onclick="getDataAndFillForm()">Get Data</button>
+      <button type="button" onclick="updateData()">Update Data</button>
+    </form>
+
+    <script>
+      window.onload = function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var contactId = urlParams.get('contact_id');
+
+        if (contactId) {
+          // If contact_id is available in the URL, autofill the form
+          document.getElementById('contact_id').value = contactId;
+          getDataAndFillForm();
+        }
+      };
+
+      function getDataAndFillForm() {
+        var contactId = document.getElementById('contact_id').value;
+
+        // Simulate data mapping based on contact_id
+        var dataMap = {
+          // Add your data mappings here based on contact_id
+          "fGkO5vzTTJEmsvf1fF6m": {
+            "first_name": "Shelley",
+            "last_name": "Mack",
+            "phone": "+15674865991",
+            // Add more fields as needed
+          },
+          // Add more mappings as needed
+        };
+
+        // Check if the contact_id is in the dataMap
+        if (dataMap.hasOwnProperty(contactId)) {
+          var data = dataMap[contactId];
+          fillForm(data);
+        } else {
+          alert('ContactId not found: ' + contactId);
+        }
+      }
+
+      function fillForm(data) {
+        // Loop through the data and autofill the form fields
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            var element = document.getElementById(key);
+            if (element) {
+              element.value = data[key];
+            }
+          }
+        }
+      }
+
+      function updateData() {
+        var contactId = document.getElementById('contact_id').value;
+        var data = /* collect form data */;
+        google.script.run.withSuccessHandler(alertSuccess).updateData(JSON.stringify({ contact_id: contactId, data: data }));
+      }
+
+      function alertSuccess(response) {
+        alert(response);
+      }
+    </script>
+  </body>
+</html>
+
+1 data-q="first_name" data-q="last_name" data-q="phone" data-q="relationship"
+data-q="authorized_person_(legal_guardian)" 2 data-q="name_of_patient_(printed)"
+data-q="witness_name" data-q="physician_name" 3 data-q="patient_name"
+data-q="jersey_weight_loss_clinic_representative"

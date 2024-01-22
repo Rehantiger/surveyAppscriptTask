@@ -1,0 +1,47 @@
+<script>
+  const inp = document.querySelectorAll(`[data-q="registered_business"]`);
+  let multiselect = [...document.querySelectorAll(".multiselect")];
+  const filterSelector = ["Business Type", "Business Registration ID Type"];
+  multiselect = multiselect.reduce((acc, cur) => {
+    let parent = cur.closest(".form-field-container");
+    if (parent) {
+      let label = parent.querySelector("label");
+      if (filterSelector.some((x) => label?.innerText.includes(x))) {
+        acc.push(cur);
+      }
+    }
+    return acc;
+  }, []);
+
+  inp.forEach((x) =>
+    x.addEventListener("change", () => {
+      let val = x.value;
+      const security_number = document.querySelector(
+        `[data-q="social_security_number_(ssn)"]`
+      );
+      security_number
+        .closest(".form-field-container")
+        ?.classList.toggle("disabled", val === "Yes");
+      multiselect.forEach((y) =>
+        y
+          .closest(".form-field-container")
+          ?.classList.toggle("disabled", val !== "Yes")
+      );
+    })
+  );
+
+  document
+    .querySelector('[value="Yes"]')
+    .addEventListener("click", function () {
+      document.querySelector(
+        '[data-q="business_registration_number"]'
+      ).disabled = false;
+    });
+  document.querySelector('[value="No"]').addEventListener("click", function () {
+    document.querySelector(
+      '[data-q="business_registration_number"]'
+    ).disabled = true;
+  });
+</script>
+const searchParams = new URLSearchParams(new URL(window.location.href).search);
+const contactId = searchParams.get('contact_id');
